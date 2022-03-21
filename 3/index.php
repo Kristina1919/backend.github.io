@@ -65,17 +65,17 @@ $bio = $_POST['bio'];
 $policy = $_POST['policy'];
 $powers = implode(',', $_POST['select']);
 
-$user = 'u47584';
-$pass = '3864156';
-$db = new PDO('mysql:host=localhost;dbname=u47584', $user, $pass, array(PDO::ATTR_PERSISTENT => true));
+$user = 'u47578';
+$pass = '8914383';
+$db = new PDO('mysql:host=localhost;dbname=u47578', $user, $pass, array(PDO::ATTR_PERSISTENT => true));
 
 // Подготовленный запрос. Не именованные метки.
 try {
-    $stmt = $db->prepare("INSERT INTO clients SET name = ?, email = ?, date = ?, gender = ?, limbs = ?, bio = ?, policy = ?");
+    $stmt = $db->prepare("INSERT INTO users SET name = ?, email = ?, date = ?, gender = ?, limbs = ?, bio = ?, policy = ?");
     $stmt->execute(array($name, $email, $date, $gender, $limbs, $bio, $policy));
     $user_id = $db->lastInsertId();
 
-    $superpowers = $db->prepare("INSERT INTO superpowers SET powers = ?, userID = ? ");
+    $superpowers = $db->prepare("INSERT INTO powers SET powers = ?, userID = ? ");
     $superpowers->execute(array($powers, $users_id));
 } catch (PDOException $e) {
     print('Error : ' . $e->getMessage());
