@@ -180,27 +180,3 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     header('Location: index.php');
 }
 
-$name = $_POST['name'];
-    $email = $_POST['email'];
-    $date = $_POST['date'];
-    $gender = $_POST['gender'];
-    $limbs = $_POST['limbs'];
-    $bio = $_POST['bio'];
-    $policy = $_POST['policy'];
-    $powers = implode(',', $_POST['select']);
-
-    $user = 'u47578';
-    $pass = '8914383';
-    $db = new PDO('mysql:host=localhost;dbname=u47578', $user, $pass, array(PDO::ATTR_PERSISTENT => true));
-
-    try {
-        $stmt = $db->prepare("INSERT INTO users SET name = ?, email = ?, date = ?, gender = ?, limbs = ?, bio = ?, policy = ?");
-        $stmt->execute(array($name, $email, $date, $gender, $limbs, $bio, $policy));
-        $userID = $db->lastInsertId();
-
-        $superpowers = $db->prepare("INSERT INTO powers SET powers = ?, userID = ? ");
-        $superpowers->execute(array($powers, $userID));
-    } catch (PDOException $e) {
-        print('Error : ' . $e->getMessage());
-        exit();
-    }
