@@ -70,7 +70,7 @@
             <?php if ($errors['email']) {print 'class="error"';} ?> value="<?php print $values['email']; ?>"/>
             <div class="block" id="date-block">
                 <span class="block-title">Дата рождения</span>
-                <input type="date" class="form-control" name="date" <?php if ($errors['date']) { print 'class="error"';} ?> value="<?php print $values['date']; ?>"/>
+                <input type="birth" class="form-control" name="birth" <?php if ($errors['birth']) { print 'class="error"';} ?> value="<?php print $values['birth']; ?>"/>
             </div>
             <div class="block" id="gender-block">
                 <span>Пол:</span>
