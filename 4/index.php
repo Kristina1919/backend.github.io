@@ -191,7 +191,7 @@ $name = $_POST['name'];
 
     $user = 'u47578';
     $pass = '8914383';
-    $db = new PDO('mysql:host=localhost;dbname=u47526', $user, $pass, array(PDO::ATTR_PERSISTENT => true));
+    $db = new PDO('mysql:host=localhost;dbname=u47578', $user, $pass, array(PDO::ATTR_PERSISTENT => true));
 
     try {
         $stmt = $db->prepare("INSERT INTO users SET name = ?, email = ?, date = ?, gender = ?, limbs = ?, bio = ?, policy = ?");
