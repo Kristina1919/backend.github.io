@@ -86,14 +86,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
         setcookie('email_value', $_POST['email'], time() + 12 * 30 * 24 * 60 * 60);
     }
 
-    // проверка поля даты рождения
-    $date = explode('-', $_POST['date']);
-    $age = (int)date('Y') - (int)$date[0];
-    if ($age > 100 || $age < 0) {
-        setcookie('date_error', '1', time() + 24 * 60 * 60);
+    // проверка поля имени
+    if (!preg_match('/^([a-zA-Z]|[а-яА-Я])/', $_POST['name'])) {
+        setcookie('name_error', '1', time() + 24 * 60 * 60);
         $errors = TRUE;
     } else {
-        setcookie('date_value', $_POST['date'], time() + 12 * 30 * 24 * 60 * 60);
+        setcookie('name_value', $_POST['name'], time() + 12 * 30 * 24 * 60 * 60);
     }
 
     // проверка поля пола
