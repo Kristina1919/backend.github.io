@@ -71,7 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 
     $errors = FALSE;
     // проверка поля имени
-    if (!preg_match('/^([a-zA-Z]|[а-яА-Я])/', $_POST['name'])) {
+    if (!preg_match('/^([а-яА-Я])/', $_POST['name'])) {
         setcookie('name_error', '1', time() + 24 * 60 * 60);
         $errors = TRUE;
     } else {
@@ -150,7 +150,37 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
         setcookie('policy_error', '', 100000);
     }
 
-   $name = $_POST['name'];
+    $name = $_POST['name'];
+    $email = $_POST['email'];
+    $date = $_POST['date'];
+    $gender = $_POST['gender'];
+    $limbs = (int)$_POST['limbs'];
+    $bio = $_POST['bio'];
+    $policy = $_POST['policy'];
+    $powers = implode(',', $_POST['powers']);
+
+    $user = 'u47578';
+    $pass = '5988897';
+    $db = new PDO('mysql:host=localhost;dbname=u47578', $user, $pass, array(PDO::ATTR_PERSISTENT => true));
+
+    try {
+        $stmt = $db->prepare("INSERT INTO users SET name = ?, email = ?, date = ?, gender = ?, limbs = ?, bio = ?, policy = ?");
+        $stmt->execute(array($name, $email, $date, $gender, $limbs, $bio, $policy));
+        $power_id = $db->lastInsertId();
+
+        $superpowers = $db->prepare("INSERT INTO powers SET powers = ?, userID = ? ");
+        $superpowers->execute(array($powers, $power_id));
+    } catch (PDOException $e) {
+        print('Error : ' . $e->getMessage());
+        exit();
+    }
+    setcookie('save', '1');
+
+    // Делаем перенаправление.
+    header('Location: index.php');
+}
+
+$name = $_POST['name'];
     $email = $_POST['email'];
     $date = $_POST['date'];
     $gender = $_POST['gender'];
@@ -161,7 +191,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 
     $user = 'u47578';
     $pass = '8914383';
-    $db = new PDO('mysql:host=localhost;dbname=u47578', $user, $pass, array(PDO::ATTR_PERSISTENT => true));
+    $db = new PDO('mysql:host=localhost;dbname=u47526', $user, $pass, array(PDO::ATTR_PERSISTENT => true));
 
     try {
         $stmt = $db->prepare("INSERT INTO users SET name = ?, email = ?, date = ?, gender = ?, limbs = ?, bio = ?, policy = ?");
@@ -174,8 +204,3 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
         print('Error : ' . $e->getMessage());
         exit();
     }
-    setcookie('save', '1');
-
-    // Делаем перенаправление.
-    header('Location: index.php');
-}
