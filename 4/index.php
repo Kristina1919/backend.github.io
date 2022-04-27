@@ -160,7 +160,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     $powers = implode(',', $_POST['powers']);
 
     $user = 'u47578';
-    $pass = '5988897';
+    $pass = '8914383';
     $db = new PDO('mysql:host=localhost;dbname=u47578', $user, $pass, array(PDO::ATTR_PERSISTENT => true));
 
     try {
@@ -189,8 +189,8 @@ $name = $_POST['name'];
     $policy = $_POST['policy'];
     $powers = implode(',', $_POST['select']);
 
-    $user = 'u47526';
-    $pass = '3997705';
+    $user = 'u47578';
+    $pass = '8914383';
     $db = new PDO('mysql:host=localhost;dbname=u47526', $user, $pass, array(PDO::ATTR_PERSISTENT => true));
 
     try {
