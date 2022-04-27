@@ -108,8 +108,8 @@
             </div>
             <div class="block">
                 <span class="block-title">Выберите суперспособности</span>
-                <select class="form-select" name="powers[]" multiple <?php if ($errors['powers']) {print 'class="error"';} ?>>
-                    <option value="walls" <?php $arr = explode(',', $values['powers']);
+                <select class="form-select" name="select[]" multiple <?php if ($errors['select']) {print 'class="error"';} ?>>
+                    <option value="walls" <?php $arr = explode(',', $values['select']);
                                         if ($arr != '') {
                                             foreach ($arr as $value) {
                                                 if ($value == 'walls') {
@@ -118,7 +118,7 @@
                                             }
                                         }
                                         ?>>Прохождение сквозь стены</option>
-                    <option value="immortality" <?php $arr = explode(',', $values['powers']);
+                    <option value="immortality" <?php $arr = explode(',', $values['select']);
                                         if ($arr != '') {
                                             foreach ($arr as $value) {
                                                 if ($value == 'immortality') {
@@ -127,7 +127,7 @@
                                             }
                                         }
                                         ?>>Бессмертие</option>
-                    <option value="levitation" <?php $arr = explode(',', $values['powers']);
+                    <option value="levitation" <?php $arr = explode(',', $values['select']);
                                         if ($arr != '') {
                                             foreach ($arr as $value) {
                                                 if ($value == 'levitation') {
