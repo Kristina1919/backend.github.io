@@ -71,12 +71,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 
     $errors = FALSE;
     // проверка поля имени
-    if (!preg_match('/^([а-яА-Я])/', $_POST['name'])) {
+    if (!preg_match('/^([a-zA-Z]|[а-яА-Я])/', $_POST['name'])) {
         setcookie('name_error', '1', time() + 24 * 60 * 60);
         $errors = TRUE;
     } else {
         setcookie('name_value', $_POST['name'], time() + 12 * 30 * 24 * 60 * 60);
     }
+
 
     // проверка поля email
     if (!preg_match('/[-0-9a-zA-Z.+_]+@[-0-9a-zA-Z.+_]+.[a-zA-Z]{2,4}/', $_POST['email'])) {
@@ -86,12 +87,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
         setcookie('email_value', $_POST['email'], time() + 12 * 30 * 24 * 60 * 60);
     }
 
-    // проверка поля имени
-    if (!preg_match('/^([a-zA-Z]|[а-яА-Я])/', $_POST['name'])) {
-        setcookie('name_error', '1', time() + 24 * 60 * 60);
+    // проверка поля даты рождения
+    $date = explode('-', $_POST['date']);
+    $age = (int)date('Y') - (int)$date[0];
+    if ($age > 100 || $age < 0) {
+        setcookie('date_error', '1', time() + 24 * 60 * 60);
         $errors = TRUE;
     } else {
-        setcookie('name_value', $_POST['name'], time() + 12 * 30 * 24 * 60 * 60);
+        setcookie('date_value', $_POST['date'], time() + 12 * 30 * 24 * 60 * 60);
     }
 
     // проверка поля пола
