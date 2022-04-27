@@ -150,25 +150,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
         setcookie('policy_error', '', 100000);
     }
 
-    $name = $_POST['name'];
+   $name = $_POST['name'];
     $email = $_POST['email'];
     $date = $_POST['date'];
     $gender = $_POST['gender'];
     $limbs = $_POST['limbs'];
     $bio = $_POST['bio'];
     $policy = $_POST['policy'];
-    $powers = implode(',', $_POST['powers']);
+    $powers = implode(',', $_POST['select']);
 
-    $user = 'u47526';
-    $pass = '3997705';
-    $db = new PDO('mysql:host=localhost;dbname=u47526', $user, $pass, array(PDO::ATTR_PERSISTENT => true));
+    $user = 'u47578';
+    $pass = '8914383';
+    $db = new PDO('mysql:host=localhost;dbname=u47578', $user, $pass, array(PDO::ATTR_PERSISTENT => true));
 
     try {
-        $stmt = $db->prepare("INSERT INTO members SET name = ?, email = ?, date = ?, gender = ?, limbs = ?, bio = ?, policy = ?");
+        $stmt = $db->prepare("INSERT INTO users SET name = ?, email = ?, date = ?, gender = ?, limbs = ?, bio = ?, policy = ?");
         $stmt->execute(array($name, $email, $date, $gender, $limbs, $bio, $policy));
         $userID = $db->lastInsertId();
 
-        $superpowers = $db->prepare("INSERT INTO superpowers SET powers = ?, userID = ? ");
+        $superpowers = $db->prepare("INSERT INTO powers SET powers = ?, userID = ? ");
         $superpowers->execute(array($powers, $userID));
     } catch (PDOException $e) {
         print('Error : ' . $e->getMessage());
