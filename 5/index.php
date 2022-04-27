@@ -1,8 +1,10 @@
 <?php
-header('Content-Type: text/html; charset=UTF-8');
-$user = 'u47578';
-$pass = '8914383';
 
+header('Content-Type: text/html; charset=UTF-8');
+session_start();
+
+// В суперглобальном массиве $_SERVER PHP сохраняет некторые заголовки запроса HTTP
+// и другие сведения о клиненте и сервере, например метод текущего запроса $_SERVER['REQUEST_METHOD'].
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
   // Массив для временного хранения сообщений пользователю.
   $messages = array();
@@ -38,7 +40,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
   $errors['bio'] = !empty($_COOKIE['bio_error']);
   $errors['policy'] = !empty($_COOKIE['policy_error']);
 
+  // TODO: аналогично все поля.
 
+  // Выдаем сообщения об ошибках.
   if ($errors['name']) {
     setcookie('name_error', '', 100000);
     $messages[] = '<div class="error">Введите имя.</div>';
@@ -71,6 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     setcookie('policy_error', '', 100000);
     $messages[] = '<div class="error">Ознакомтесь с политикой обработки данных.</div>';
   }
+  // TODO: тут выдать сообщения об ошибках в других полях.
 
   // Складываем предыдущие значения полей в массив, если есть.
   // При этом санитизуем все данные для безопасного отображения в браузере.
@@ -87,27 +92,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 
   // Если нет предыдущих ошибок ввода, есть кука сессии, начали сессию и
   // ранее в сессию записан факт успешного логина.
-  if (
-    empty($errors) && !empty($_COOKIE[session_name()]) &&
-    session_start() && !empty($_SESSION['login'])
-  ) {
-    $member = $_SESSION['login'];
+  if (empty($errors) && !empty($_COOKIE[session_name()]) && session_start() && !empty($_SESSION['login'])) {
     try {
       $user = 'u47578';
       $pass = '8914383';
+      $member = $_SESSION['login'];
       $db = new PDO('mysql:host=localhost;dbname=u47578', $user, $pass, array(PDO::ATTR_PERSISTENT => true));
       $stmt = $db->prepare("SELECT * FROM members WHERE login = ?");
       $stmt->execute(array($member));
       $result = $stmt->fetch(PDO::FETCH_ASSOC);
-      $values['name'] = $result['name_value'];
-      $values['email'] = $result['email_value'];
-      $values['birth'] = $result['birth_value'];
-      $values['gender'] = $result['gender_value'];
-      $values['limbs'] = $result['limbs_value'];
-      $values['bio'] = $result['bio_value'];
-      $values['policy'] = $result['policy_value'];
+      $values['name'] = $result['name'];
+      $values['email'] = $result['email'];
+      $values['birth'] = $result['date'];
+      $values['gender'] = $result['gender'];
+      $values['limbs'] = $result['limbs'];
+      $values['bio'] = $result['bio'];
+      $values['policy'] = $result['policy'];
 
-      $powers = $db->prepare("SELECT * FROM powers2 WHERE user_login = ? ");
+      $powers = $db->prepare("SELECT * FROM powers2 WHERE user_login = ?");
       $powers->execute(array($member));
       $result = $powers->fetch(PDO::FETCH_ASSOC);
       $values['select'] = $result['powers'];
@@ -115,19 +117,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
       print('Error : ' . $e->getMessage());
       exit();
     }
-    printf('Вход с логином %s, uid %d', $_SESSION['login'], $_SESSION['uid']);
+    printf('<div>Вход с логином %s, uid %d</div>', $_SESSION['login'], $_SESSION['uid']);
   }
-
   include('form.php');
 }
 // Иначе, если запрос был методом POST, т.е. нужно проверить данные и сохранить их в XML-файл.
 else {
-  // Проверяем ошибки.
-  $errors = FALSE;
-  if (!filter_var($_COOKIE['email_value'], FILTER_VALIDATE_EMAIL)) {
-    $errors['email'] = !empty($_COOKIE['email_error']);
-  }
-
   $errors = FALSE;
   // проверка поля имени
   if (!preg_match('/^[a-z0-9_\s]+$/i', $_POST['name'])) {
@@ -209,27 +204,23 @@ else {
     setcookie('bio_error', '', 100000);
     setcookie('policy_error', '', 100000);
   }
-  $name = $_COOKIE['name_value'];
-  $email = $_COOKIE['email_value'];
-  $date = $_COOKIE['birth_value'];
-  $gender = $_COOKIE['gender_value'];
-  $limbs = $_COOKIE['limbs_value'];
-  $bio = $_COOKIE['bio_value'];
-  $policy = $_COOKIE['policy_value'];
-  $powers = implode(',', $_COOKIE['select_value']);
+
+  $user = 'u47578';
+  $pass = '8914383';
+  $name = $_POST['name'];
+  $email = $_POST['email'];
+  $date = $_POST['birth'];
+  $gender = $_POST['gender'];
+  $limbs = $_POST['limbs'];
+  $bio = $_POST['bio'];
+  $policy = $_POST['policy'];
+  $powers = implode(',', $_POST['select']);
   $member = $_SESSION['login'];
 
-  $db = new PDO('mysql:host=localhost;dbname=u47572', $user, $pass, array(PDO::ATTR_PERSISTENT => true));
+  $db = new PDO('mysql:host=localhost;dbname=u47578', $user, $pass, array(PDO::ATTR_PERSISTENT => true));
   // Проверяем меняются ли ранее сохраненные данные или отправляются новые.
-  print('<div style="color: red; font-size: 16px; text-align: center;"');
-  print("I'm here</div>");
-  if (
-    !empty($_COOKIE[session_name()]) &&
-    session_start() && !empty($_SESSION['login'])
-  ) {
+  if (!empty($_COOKIE[session_name()]) && session_start() && !empty($_SESSION['login'])) {
     try {
-      print('<div style="color: red; font-size: 16px; text-align: center;"');
-      print("I'm here</div>");
       $stmt = $db->prepare("UPDATE members SET name = ?, email = ?, date = ?, gender = ?, limbs = ?, bio = ?, policy = ? WHERE login = ?");
       $stmt->execute(array($name, $email, $date, $gender, $limbs, $bio, $policy, $member));
 
@@ -240,7 +231,8 @@ else {
       exit();
     }
   } else {
-
+    // Генерируем уникальный логин и пароль.
+    // TODO: сделать механизм генерации, например функциями rand(), uniquid(), md5(), substr().
     $login = uniqid();
     $password = uniqid();
     $hash = md5($password);
@@ -266,3 +258,4 @@ else {
   // Делаем перенаправление.
   header('Location: ./');
 }
+
