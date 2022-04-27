@@ -93,6 +93,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
   ) {
     $member = $_SESSION['login'];
     try {
+      $user = 'u47578';
+      $pass = '8914383';
       $db = new PDO('mysql:host=localhost;dbname=u47578', $user, $pass, array(PDO::ATTR_PERSISTENT => true));
       $stmt = $db->prepare("SELECT * FROM members WHERE login = ?");
       $stmt->execute(array($member));
