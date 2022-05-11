@@ -24,7 +24,7 @@ if (!empty($_SESSION['login'])) {
 // В суперглобальном массиве $_SERVER PHP сохраняет некторые заголовки запроса HTTP
 // и другие сведения о клиненте и сервере, например метод текущего запроса $_SERVER['REQUEST_METHOD'].
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-  if (!$_GET['error']) {
+  if (!empty($_GET['error'])) {
     print('<div style="color: red; font-size: 16px; text-align: center;"');
     print('Не верный пароль/логин проверьте корректность введенных данных</div>');
   }
