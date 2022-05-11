@@ -31,9 +31,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 ?>
   <form action="" method="POST">
     <span>Логин:</span>
-    <input name="login" value=<?php $_SESSION['login'] ?> />
-    <span>Пароль:</span>
-    <input name="pass" value=<?php $_SESSION['pass'] ?> />
+    <input name="login" value="<?php $_SESSION['login'] ?>" />
+<span>Пароль:</span>
+<input name="pass" value="<?php $_SESSION['pass'] ?>" /> 
     <input type="submit" value="Войти" />
   </form>
 
