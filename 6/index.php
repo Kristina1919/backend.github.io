@@ -174,7 +174,7 @@ else {
     setcookie('select_error', '1', time() + 24 * 60 * 60);
     $errors = TRUE;
   } else {
-    setcookie('select_value', $_POST['select'], time() + 12 * 30 * 24 * 60 * 60);
+    setcookie('select_value', implode(',', $_POST['select']), time() + 12 * 30 * 24 * 60 * 60);
   }
 
   // проверка поля биографии
@@ -214,10 +214,10 @@ else {
   $limbs = $_COOKIE['limbs_value'];
   $bio = $_COOKIE['bio_value'];
   $policy = $_COOKIE['policy_value'];
-  $powers = implode(',', $_COOKIE['select_value']);
+  $powers = implode(',', $_POST['select']);
   $member = $_SESSION['login'];
 
-  $db = new PDO('mysql:host=localhost;dbname=u47572', $user, $pass, array(PDO::ATTR_PERSISTENT => true));
+  $db = new PDO('mysql:host=localhost;dbname=u47578', $user, $pass, array(PDO::ATTR_PERSISTENT => true));
   // Проверяем меняются ли ранее сохраненные данные или отправляются новые.
   print('<div style="color: red; font-size: 16px; text-align: center;"');
   print("I'm here</div>");
