@@ -70,7 +70,7 @@
             <?php if ($errors['email']) {print 'class="error"';} ?> value="<?php print $values['email']; ?>"/>
             <div class="block" id="date-block">
                 <span class="block-title">Дата рождения</span>
-                <input type="date" class="form-control" name="date" <?php if ($errors['date']) { print 'class="error"';} ?> value="<?php print $values['date']; ?>"/>
+                <input type="date" class="form-control" name="birth" <?php if ($errors['birth']) { print 'class="error"';} ?> value="<?php print $values['birth']; ?>"/>
             </div>
             <div class="block" id="gender-block">
                 <span>Пол:</span>
@@ -108,8 +108,8 @@
             </div>
             <div class="block">
                 <span class="block-title">Выберите суперспособности</span>
-                <select class="form-select" name="powers[]" multiple <?php if ($errors['powers']) {print 'class="error"';} ?>>
-                    <option value="walls" <?php $arr = explode(',', $values['powers']);
+                <select class="form-select" name="select[]" multiple <?php if ($errors['select']) {print 'class="error"';} ?>>
+                    <option value="walls" <?php $arr = explode(',', $values['select']);
                                         if ($arr != '') {
                                             foreach ($arr as $value) {
                                                 if ($value == 'walls') {
@@ -127,7 +127,7 @@
                                             }
                                         }
                                         ?>>Бессмертие</option>
-                    <option value="levitation" <?php $arr = explode(',', $values['powers']);
+                    <option value="levitation" <?php $arr = explode(',', $values['select']);
                                         if ($arr != '') {
                                             foreach ($arr as $value) {
                                                 if ($value == 'levitation') {
