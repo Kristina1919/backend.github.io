@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" />
-    <title>Задание 3</title>
+    <title>Задание 6</title>
     <style>
         * {
             margin: 0;
@@ -118,7 +118,7 @@
                                             }
                                         }
                                         ?>>Прохождение сквозь стены</option>
-                    <option value="immortality" <?php $arr = explode(',', $values['powers']);
+                    <option value="immortality" <?php $arr = explode(',', $values['select']);
                                         if ($arr != '') {
                                             foreach ($arr as $value) {
                                                 if ($value == 'immortality') {
